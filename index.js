@@ -9,12 +9,10 @@ const { CORS_ORIGIN } = process.env;
 
 app.use(cors({ CORS_ORIGIN }));
 app.use(express.json())
+app.use(express.static('public'))
 
 const videosRouter = require('./routes/videos')
 app.use('/videos', videosRouter)
-
-// const uploadRouter = require('./routes/upload')
-// app.use('/upload-video', uploadRouter)
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)

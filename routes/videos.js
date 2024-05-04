@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
-
 const fs = require('fs')
+
 const jsonVideos = fs.readFileSync('./data/videos.json', 'utf8');
 console.log(jsonVideos);
 const videos = JSON.parse(jsonVideos);
 console.log(videos);
 console.log(typeof(videos));
 
-router.use(express.static('public'))
-const hardCodeImage = "http://localhost:8080/public/images/Upload-video-preview.jpg"
+const hardCodeImage = "http://localhost:8080/images/Upload-video-preview.jpg"
 
 
 // Getting all
@@ -25,6 +24,7 @@ router.get('/:id', (req, res) => {
     res.json(video);
 })
 
+
 // Creating one
 router.post('/', (req, res) => {
     const { title, description } = req.body;
@@ -35,9 +35,9 @@ router.post('/', (req, res) => {
         image: hardCodeImage
     };
     videos.push(newVideo);
-    res.json(newVideo)
-    // i think this will require writeFileSync to add the body to our 
-    // JSON file for new video
+    const newVideos = JSON.stringify(videos)
+    fs.writeFileSync('./data/videos.json', newVideos)
+    res.json(newVideos)
 })
 
 // Updating one
