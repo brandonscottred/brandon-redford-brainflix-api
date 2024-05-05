@@ -9,12 +9,18 @@ const videos = JSON.parse(jsonVideos);
 console.log(videos);
 console.log(typeof(videos));
 
-const hardCodeImage = "http://localhost:8080/images/Upload-video-preview.jpg"
+const hardCodeImage = "http://localhost:8080/images/brainflix.png"
 
 
 // Getting all
 router.get('/', (req, res) => {
-    res.json(videos)
+    {const videoList = videos.map((video) => {
+        return (
+            {"id":video.id, "title":video.title, "channel":video.channel, "image":video.image}
+        )
+    })
+    res.json(videoList)
+    }
 })
 
 // Getting one
@@ -31,8 +37,13 @@ router.post('/', (req, res) => {
     const newVideo = {
         id: uuidv4(),
         title,
+        channel: "BrainFlix Special",
+        image: hardCodeImage,
         description,
-        image: hardCodeImage
+        views: "2,043,765",
+        likes: "400,058",
+        duration: "7:26",
+        timestamp: Date.now(),
     };
     videos.push(newVideo);
     const newVideos = JSON.stringify(videos)
